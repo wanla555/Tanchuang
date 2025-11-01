@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>暖心文字弹窗</title>
+  <style>
+    /* 页面背景样式 */
+    body {
+      margin: 0;
+      padding: 20px;
+      background-color: #f5f5f5;
+      font-family: "微软雅黑", sans-serif;
+    }
+    /* 弹窗样式 */
+    .popup {
+      position: fixed;
+      padding: 12px 24px;
+      border-radius: 20px;
+      color: #333;
+      font-size: 18px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+      animation: pop 0.6s ease-out;
+      /* 随机背景色（淡粉/淡绿/淡黄） */
+      background: linear-gradient(120deg, #ffe6e6, #e6ffe6, #fff3e6);
+    }
+    /* 弹窗动画（从下往上弹出） */
+    @keyframes pop {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <script>
+    // 自定义弹窗文字（可以自己修改内容）
+    const messageList = [
+      "别熬夜啦~早点休息",
+      "今天也要梦想成真",
+      "一定要好好爱自己",
+      "我超想你的哦",
+      "保持微笑，好运会来",
+      "别太累啦，偷个懒吧",
+      "每天都要元气满满"
+    ];
+
+    // 生成多个弹窗
+    messageList.forEach((text, index) => {
+      // 创建弹窗元素
+      const popup = document.createElement("div");
+      popup.className = "popup";
+      popup.textContent = text;
+
+      // 随机位置（避免弹窗重叠）
+      const randomLeft = Math.random() * 80 + 10; // 左边距10%-90%
+      const randomTop = index * 12 + 10; // 上边距依次排列
+      popup.style.left = `${randomLeft}%`;
+      popup.style.top = `${randomTop}%`;
+
+      // 把弹窗加到页面里
+      document.body.appendChild(popup);
+    });
+  </script>
+</body>
+</html>
