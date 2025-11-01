@@ -5,66 +5,105 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>暖心文字弹窗</title>
   <style>
-    /* 页面背景样式 */
     body {
       margin: 0;
-      padding: 20px;
+      padding: 0;
       background-color: #f5f5f5;
       font-family: "微软雅黑", sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
     }
-    /* 弹窗样式 */
     .popup {
       position: fixed;
-      padding: 12px 24px;
+      padding: 10px 20px;
       border-radius: 20px;
       color: #333;
-      font-size: 18px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-      animation: pop 0.6s ease-out;
-      /* 随机背景色（淡粉/淡绿/淡黄） */
-      background: linear-gradient(120deg, #ffe6e6, #e6ffe6, #fff3e6);
-    }
-    /* 弹窗动画（从下往上弹出） */
-    @keyframes pop {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      font-size: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      max-width: 60%; /* 缩小宽度，减少重叠概率 */
+      opacity: 0;
+      transition: opacity 0.8s ease;
+      background: linear-gradient(120deg, #ffe6e6, #e6ffe6);
     }
   </style>
 </head>
 <body>
   <script>
-    // 自定义弹窗文字（可以自己修改内容）
-    const messageList = [
+    const messages = [
       "别熬夜啦~早点休息",
       "今天也要梦想成真",
       "一定要好好爱自己",
       "我超想你的哦",
       "保持微笑，好运会来",
       "别太累啦，偷个懒吧",
-      "每天都要元气满满"
+      "每天都要元气满满",
+      "记得多喝温水呀",
+      "你今天也超可爱的",
+      "所有烦恼都退散~",
+      "要对自己温柔一点",
+      "今天的你也很努力啦",
+      "喜欢的事情要坚持呀",
+      "你值得被好好对待",
+      "累了就停下来歇会儿",
+      "今天的风都很温柔哦",
+      "你笑起来真的很好看",
+      "生活里藏着小美好呢",
+      "慢慢来，一切都来得及",
+      "要多给自己一点耐心",
+      "今天也要记得开心呀",
+      "你是独一无二的存在",
+      "偶尔任性也没关系的",
+      "阳光会落在你身上的",
+      "别担心，我会陪着你",
+      "今天的你比昨天更好啦",
+      "要好好吃饭照顾自己",
+      "小小的进步也很棒哦",
+      "你的努力都会有回报",
+      "晚安啦，做个甜美的梦",
+      "今天的云也很可爱哦",
+      "偶尔放空也很治愈呀",
+      "你值得所有的温柔",
+      "慢慢来，别急呀",
+      "今天也要好好拥抱自己",
+      "烦恼会像云一样飘走的",
+      "你今天的状态超棒哦",
+      "记得给自己加个油~",
+      "生活的小确幸在等你",
+      "你今天又离快乐近了一步"
     ];
 
-    // 生成多个弹窗
-    messageList.forEach((text, index) => {
-      // 创建弹窗元素
+    // 存储已生成的文字条位置，避免重叠
+    const usedPositions = [];
+
+    messages.forEach((text, index) => {
       const popup = document.createElement("div");
       popup.className = "popup";
       popup.textContent = text;
 
-      // 随机位置（避免弹窗重叠）
-      const randomLeft = Math.random() * 80 + 10; // 左边距10%-90%
-      const randomTop = index * 12 + 10; // 上边距依次排列
+      // 生成不重叠的随机位置
+      let randomLeft, randomTop;
+      let isOverlap = true;
+      while (isOverlap) {
+        // 扩大随机范围，同时预留边距
+        randomLeft = Math.random() * 85;
+        randomTop = Math.random() * 85;
+        // 检查是否与已存在的文字条重叠（间隔≥20%）
+        isOverlap = usedPositions.some(pos => 
+          Math.abs(pos.left - randomLeft) < 20 && 
+          Math.abs(pos.top - randomTop) < 20
+        );
+      }
+      // 记录当前位置
+      usedPositions.push({ left: randomLeft, top: randomTop });
+
       popup.style.left = `${randomLeft}%`;
       popup.style.top = `${randomTop}%`;
 
-      // 把弹窗加到页面里
       document.body.appendChild(popup);
+
+      setTimeout(() => {
+        popup.style.opacity = 1;
+      }, index * 200);
     });
   </script>
 </body>
